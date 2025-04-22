@@ -19,10 +19,6 @@ function App() {
     desc: ''
   })
   const [formList, setFormList] = useState([])
-
-  useEffect(() => {
-    console.log(formList)
-  }, [formList])
   
   return (
     <>
@@ -32,7 +28,8 @@ function App() {
 
         <Routes>
           <Route path="/create" element={<Create form={form} setForm={setForm} titleSize={titleSize} mainColor={mainColor} setFormList={setFormList} formList={formList}/>}></Route>
-          <Route path="/list" element={<ListDisplay formList={formList} mainColor={mainColor} titleSize={titleSize}/>}></Route>
+          <Route path="/create/:id" element={<Create form={form} setForm={setForm} titleSize={titleSize} mainColor={mainColor} setFormList={setFormList} formList={formList}/>}></Route>
+          <Route path="/list" element={<ListDisplay setForm={setForm} formList={formList} setFormList={setFormList} mainColor={mainColor} titleSize={titleSize}/>}></Route>
         </Routes> 
       </div>
     </BrowserRouter>

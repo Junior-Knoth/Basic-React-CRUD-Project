@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import { useNavigate } from 'react-router-dom'
 
 const PageTitle = styled.h2`
     font-size: ${props => props.$titleSize};
@@ -72,7 +74,50 @@ const Desc = styled.p`
     line-break: loose;
 `
 
-function ListDisplay({ formList, mainColor, titleSize }) {
+const Edit = styled.button`
+    grid-area: e;
+    width: 40%;
+    height: 100%;
+    background-color: #222;
+    margin: 0 auto;
+    cursor: pointer;
+    border: none;
+    transition: all.2s;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: #1c1c1c;
+    }
+`
+
+const Erase = styled.button`
+    grid-area: a;
+    width: 50%;
+    height: 100%;
+    background-color: #982b2b;
+    cursor: pointer;
+    border: none;
+    transition: all.2s;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: #802424;
+    }
+`
+
+function ListDisplay({ formList, mainColor, titleSize, setFormList, setForm }) {
+    const navigate = useNavigate()
+
+    function handleEdit(id) {
+        navigate(`/create/${id}`)
+    }
+
+    function handleDelete(id) {
+        const updatedList = () => formList.filter(task => task.id.toString() !== id.toString())
+        setFormList(updatedList)
+        setForm({ id: '', title: '', desc: ''})
+    }
+
     return(
         <>
             <PageTitle $titleSize={titleSize} $mainColor={mainColor}>Lista de tarefas</PageTitle>
@@ -83,6 +128,8 @@ function ListDisplay({ formList, mainColor, titleSize }) {
                         <Title>{item.title}</Title>
                         <Id>{item.id}</Id>
                         <Desc>{item.desc}</Desc>
+                        <Edit onClick={() => handleEdit(item.id)}><i className={`bi bi-pencil-fill`}></i></Edit>
+                        <Erase onClick={() => handleDelete(item.id)}><i className={`bi bi-trash-fill`}></i></Erase>
                     </ListItem>
                 ))}
             </ListWrapper>

@@ -13,8 +13,6 @@ function Header() {
         <nav className={styles['navbar']}>
             <Link to={'/create'}><i className={`${styles['font']} bi bi-patch-plus-fill`}></i></Link>
             <Link to={'/list'}><i className={`${styles['font']} bi bi-list-task`}></i></Link>
-            <Link to={'/edit'}><i className={`${styles['font']} bi bi-pencil-fill`}></i></Link>
-            <Link to={'/delete'}><i className={`${styles['font']} bi bi-trash-fill`}></i></Link>
         </nav>
     </div>
     )

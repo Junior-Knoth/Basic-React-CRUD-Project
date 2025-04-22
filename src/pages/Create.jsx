@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Outlet, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Outlet, Link, useParams } from "react-router-dom";
 import styled from 'styled-components';
 
 const PageTitle = styled.h2`
@@ -84,7 +84,12 @@ const Btn = styled.input`
 
 function Create({ form, setForm, titleSize, mainColor, formList, setFormList }) {
     const [clicked, setClicked] = useState(toString(false))
-    const [higherId, setHigherId] = useState([])
+    const [formData, setFormData] = useState({
+        id: '',
+        title: '',
+        desc: ''
+    })
+    const { id } = useParams()
     const mouseDown = () => setClicked(true)
     const mouseUp = () => setClicked(false)
 
@@ -98,39 +103,57 @@ function Create({ form, setForm, titleSize, mainColor, formList, setFormList }) 
     function handleSubmit(e) {
         e.preventDefault()
 
-        const ids = formList.map(item => item.id)
+        if (id) {
+            const updatedList = formList.map(task => task.id.toString() === id
+            ? {...task, title: form.title, desc: form.desc}
+            : task
+        )
+        setFormList(updatedList)
+        } else {
+            const ids = formList.map(item => item.id)
 
-        const maxId = ids.length > 0 ? Math.max(...ids) : 0
+            const maxId = ids.length > 0 ? Math.max(...ids) : 0
 
-        const newTask = {
-            id: maxId + 1,
-            title: form.title,
-            desc: form.desc
+            const newTask = {
+                id: maxId + 1,
+                title: form.title,
+                desc: form.desc
+            }
+
+            setFormList([
+                ...formList, newTask
+            ])
+
+            setForm({
+                id: '',
+                title: '',
+                desc: ''
+            })
         }
-
-        setFormList([
-            ...formList, newTask
-        ])
-
-        setForm({
-            id: '',
-            title: '',
-            desc: ''
-        })
     }
+
+    useEffect(() => {
+        if (id) {
+            const taskToEdit = formList.find(item => item.id === id)
+
+            if (taskToEdit) {
+                setFormData(taskToEdit)
+            }
+        }
+    }, [id, formList])
 
     return (
         <>
-            <PageTitle $titleSize={titleSize} $mainColor={mainColor}>Crie uma tarefa</PageTitle>
+            <PageTitle $titleSize={titleSize} $mainColor={mainColor}>{id ? `Editando a tarefa nº: ${id}` : `Criando nova tarefa`}</PageTitle>
 
             <CreateForm>
-                <TitleInput $mainColor={mainColor} type="text" name="title" id="title" placeholder="Título da tarefa" onChange={handleChange}/>
-                <DescInput $mainColor={mainColor} name="desc" id="desc" placeholder="Descrição da tarefa" onChange={handleChange}/>
+                <TitleInput $mainColor={mainColor} type="text" name="title" id="title" placeholder={"Título da tarefa"} onChange={handleChange} value={form.title} required/>
+                <DescInput $mainColor={mainColor} name="desc" id="desc" placeholder="Descrição da tarefa" onChange={handleChange} value={form.desc}/>
                 <Btn $mainColor={mainColor} $clicked={clicked}
                 onMouseDown={mouseDown}
                 onMouseUp={mouseUp} onMouseLeave={mouseUp}
-                onClick={handleSubmit}
-                type="submit" value="Criar"
+                onSubmit={handleSubmit}
+                type="submit" value={id ? "Salvar" : "Criar"}
                 onChange={handleChange}/>
             </CreateForm>
             <Outlet />
