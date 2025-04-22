@@ -43,5 +43,5 @@ O design é simples e funcional, com cores em tons escuros e detalhes roxos, sim
 1. **Clone o repositório:**
 
 ```bash
-git clone https://github.com/seu-usuario/gerenciador-tarefas-react.git
-cd gerenciador-tarefas-react
+git clone https://github.com/Junior-Knoth/Basic-React-CRUD-Project.git
+cd Basic-React-CRUD-Project
