@@ -146,13 +146,12 @@ function Create({ form, setForm, titleSize, mainColor, formList, setFormList }) 
         <>
             <PageTitle $titleSize={titleSize} $mainColor={mainColor}>{id ? `Editando a tarefa nº: ${id}` : `Criando nova tarefa`}</PageTitle>
 
-            <CreateForm>
+            <CreateForm onSubmit={handleSubmit}>
                 <TitleInput $mainColor={mainColor} type="text" name="title" id="title" placeholder={"Título da tarefa"} onChange={handleChange} value={form.title} required/>
                 <DescInput $mainColor={mainColor} name="desc" id="desc" placeholder="Descrição da tarefa" onChange={handleChange} value={form.desc}/>
                 <Btn $mainColor={mainColor} $clicked={clicked}
                 onMouseDown={mouseDown}
                 onMouseUp={mouseUp} onMouseLeave={mouseUp}
-                onSubmit={handleSubmit}
                 type="submit" value={id ? "Salvar" : "Criar"}
                 onChange={handleChange}/>
             </CreateForm>
