@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # 📘 Basic-React-CRUD-Project
 
 Um projeto simples e direto criado com React, com o objetivo de reforçar conceitos essenciais de desenvolvimento front-end e praticar a criação de um CRUD básico (Create, Read, Update, Delete).
